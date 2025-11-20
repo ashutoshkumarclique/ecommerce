@@ -1,0 +1,163 @@
+{
+	"info": {
+		"_postman_id": "payment-service-collection",
+		"name": "Payment Service API",
+		"description": "Postman collection for Payment Service endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Initiate Payment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}",
+						"type": "text",
+						"description": "JWT token for authentication. Gateway will extract userId and add x-user-id header automatically."
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/payments/initiate/{{order_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"payments",
+						"initiate",
+						"{{order_id}}"
+					]
+				},
+				"description": "Initiate a payment for an order. Creates a payment record with PENDING status."
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm Payment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}",
+						"type": "text",
+						"description": "JWT token for authentication"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/payments/confirm/{{payment_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"payments",
+						"confirm",
+						"{{payment_id}}"
+					]
+				},
+				"description": "Confirm a payment. Updates payment status to SUCCESS and order status to PAID."
+			},
+			"response": []
+		},
+		{
+			"name": "Fail Payment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}",
+						"type": "text",
+						"description": "JWT token for authentication"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/payments/fail/{{payment_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"payments",
+						"fail",
+						"{{payment_id}}"
+					]
+				},
+				"description": "Mark a payment as failed. Updates payment status to FAILED and order status to PAYMENT_FAILED."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Payment",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}",
+						"type": "text",
+						"description": "JWT token for authentication"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/payments/{{payment_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"payments",
+						"{{payment_id}}"
+					]
+				},
+				"description": "Retrieve payment details by payment ID."
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string",
+			"description": "API Gateway URL (or use http://localhost:8085 for direct payment service access)"
+		},
+		{
+			"key": "jwt_token",
+			"value": "",
+			"type": "string",
+			"description": "JWT token obtained from /api/auth/login endpoint"
+		},
+		{
+			"key": "order_id",
+			"value": "1",
+			"type": "string",
+			"description": "Order ID to initiate payment for"
+		},
+		{
+			"key": "payment_id",
+			"value": "1",
+			"type": "string",
+			"description": "Payment ID for confirm/fail/get operations"
+		}
+	]
+}
+
